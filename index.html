@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>Jogo da forca do teste de software</h1>
-    <img id="imagem" src="img/forcaimagem.png" alt="">
+    <img id="imagem" src="forcaimagem.png" alt="">
     <div id="exibicao-palavra"></div>
     <input type="text" id="entrada-letra" placeholder="chute uma letra!" maxlength="1">
     <button id="btn-chutar" onclick="chutarLetra()">chutar</button>
@@ -42,9 +42,9 @@
             document.getElementById("exibicao-palavra").innerText = exibicaoPalavra.join('  ');
             document.getElementById("letras-chutadas").innerText = `${letrasChutadas.join(',  ')}`;
             document.getElementById("mensagem").innerText = ''
-            document.getElementById("imagem").src = `img/forca${numeroErros}.png`;
+            document.getElementById("imagem").src = `forca${numeroErros}.png`;
             if(tentativasRestantes ===0){
-                encerrarjogo('WASTED')
+                encerrarjogo('WASTED')  
             }else if(!exibicaoPalavra.includes('_')){
                 encerrarjogo('BOOHYAH!')
 
