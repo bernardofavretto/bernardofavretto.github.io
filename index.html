@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da forca</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Jogo da forca do teste de software</h1>
+    <img id="imagem" src="img/forcaimagem.png" alt="">
+    <div id="exibicao-palavra"></div>
+    <input type="text" id="entrada-letra" placeholder="chute uma letra!" maxlength="1">
+    <button id="btn-chutar" onclick="chutarLetra()">chutar</button>
+    <h2>Letras já chutadas:</h2>
+    <div id="letras-chutadas"></div>
+    <div id="mensagem">Você ganhou!</div> <br>
+    <button id="botao-reiniciar" onclick="iniciarJogo()">Reiniciar</button>
+
+    <script>
+        const listaPalavras = ['teste de software', 'falha','defeito', 'caso de teste', 'plano de teste', 'unitario', 'integração','sistema', 'aceitacao', 'caixa preta', 'caixa branca', 'ambiente', 'bug', 'everton', 'javascript']
+        let palavraEscolhida;
+        let exibicaoPalavra;
+        let letrasChutadas;
+        let tentativasRestantes;
+        let numeroErros;
+
+        function iniciarJogo(){
+            document.getElementById("botao-reiniciar").style.display = 'none';
+            document.getElementById('entrada-letra').disabled = false;
+            palavraEscolhida = listaPalavras[Math.floor(Math.random()*listaPalavras.length)]
+            exibicaoPalavra = Array(palavraEscolhida.length).fill('_');
+            letrasChutadas = [];
+            tentativasRestantes = 6;
+            numeroErros= 0;
+
+            atualizarExibicao();
+
+        
+        }
+        function atualizarExibicao(){
+            document.getElementById("exibicao-palavra").innerText = exibicaoPalavra.join('  ');
+            document.getElementById("letras-chutadas").innerText = `${letrasChutadas.join(',  ')}`;
+            document.getElementById("mensagem").innerText = ''
+            document.getElementById("imagem").src = `img/forca${numeroErros}.png`;
+            if(tentativasRestantes ===0){
+                encerrarjogo('WASTED')
+            }else if(!exibicaoPalavra.includes('_')){
+                encerrarjogo('BOOHYAH!')
+
+            } 
+           
+
+        }
+        function chutarLetra(){
+                const entradaLetra = document.getElementById('entrada-letra');
+                const letra = entradaLetra.value.toLowerCase();
+                if(!letra.match(/[a-zà-ùç]/i)){
+                  alert('Insira uma letra válida!');
+                  return;
+                }
+                if(letrasChutadas.includes(letra)){
+                    alert('Letra repetida!')
+                    return;
+                }
+
+                letrasChutadas.push(letra);
+            if(palavraEscolhida.includes(letra)){
+                for (let i=0; i<palavraEscolhida.length; i++){
+                    if(palavraEscolhida[i] === letra){
+                        exibicaoPalavra[i] = letra;
+                    }
+                }
+            }else{
+                tentativasRestantes--;
+                numeroErros++;
+            }
+            entradaLetra.value = '';
+            atualizarExibicao();
+            }
+        function encerrarjogo(mensagem){
+            document.getElementById('entrada-letra').disabled = true;
+            document.getElementById('mensagem').style.display = 'block';
+            document.getElementById('mensagem').innerText = mensagem;
+            document.getElementById('botao-reiniciar').style.display = 'block';
+        }
+        window.load = iniciarJogo();
+        
+    </script>
+
+
+</body>
+</html>
